@@ -1,0 +1,92 @@
+from abc import ABC, abstractmethod
+
+
+class ITeacher(ABC):
+    @abstractmethod
+    def __init__(self, name):
+        pass
+
+    @abstractmethod
+    def display(self):
+        pass
+
+
+class Teacher(ITeacher):
+    def __init__(self, name):
+        self.name = name
+
+    def display(self):
+        return "teacher called " + self.name
+
+
+class ICourse(ABC):
+    @abstractmethod
+    def __init__(self, name, teacher, topics):
+        pass
+
+    @abstractmethod
+    def display(self):
+        pass
+
+
+class ILocalCourse(ICourse):
+    pass
+
+
+class LocalCourse(ILocalCourse):
+    def __init__(self, name, teacher, topics):
+        self.name = name
+        self.teacher = teacher
+        self.topics = topics
+
+    def display(self):
+        res = "Local course with name " + self.name + ", teacher " + self.teacher.name + ", topics "
+        for topic in self.topics:
+            res += topic + " "
+        return res
+
+
+class IOffsiteCourse(ICourse):
+    pass
+
+
+class OffsiteCourse(IOffsiteCourse):
+    def __init__(self, name, teacher, topics):
+        self.name = name
+        self.teacher = teacher
+        self.topics = topics
+
+    def display(self):
+        res = "Offsite course with name " + self.name + ", teacher " + self.teacher.name + ", topics "
+        for topic in self.topics:
+            res += topic + " "
+        return res
+
+
+class ICourseFactory(ABC):
+    def __init__(self):
+        pass
+
+
+class CourseFactory(ICourseFactory):
+    def createTeacher(self, name):
+        if not isinstance(name, str):
+            raise Exception("name must be a string")
+        return Teacher(name)
+
+
+    def createCourse(self, course_type, name, teacher, topics):
+        if not isinstance(name, str):
+            raise Exception("name must be a string")
+        if not isinstance(teacher, ITeacher):
+            raise Exception("teacher must be of type ITeacher")
+        if course_type == 'local':
+            return LocalCourse(name, teacher, topics)
+        elif course_type == 'offsite':
+            return OffsiteCourse(name, teacher, topics)
+        else:
+            raise Exception("unknown course type")
+
+
+cf = CourseFactory()
+a = cf.createCourse('local', 'kishki', cf.createTeacher("puadsfa"), ("pupu", "pipi"))
