@@ -41,8 +41,7 @@ class LocalCourse(ILocalCourse):
 
     def display(self):
         res = "Local course with name " + self.name + ", teacher " + self.teacher.name + ", topics "
-        for topic in self.topics:
-            res += topic + " "
+        res += " ".join(self.topics)
         return res
 
 
@@ -58,8 +57,7 @@ class OffsiteCourse(IOffsiteCourse):
 
     def display(self):
         res = "Offsite course with name " + self.name + ", teacher " + self.teacher.name + ", topics "
-        for topic in self.topics:
-            res += topic + " "
+        res += " ".join(self.topics)
         return res
 
 
@@ -89,4 +87,10 @@ class CourseFactory(ICourseFactory):
 
 
 cf = CourseFactory()
-a = cf.createCourse('local', 'kishki', cf.createTeacher("puadsfa"), ("pupu", "pipi"))
+a = cf.createCourse('local', 'kishki', cf.createTeacher("pedj"), ("papapa", "pipi"))
+b = cf.createCourse('offsite', 'gachki', cf.createTeacher("mavpa"), ("pupi", "pupu"))
+c = cf.createCourse('local', 'bavava', cf.createTeacher("bibibubu"), ("pipu", "papapapapa"))
+
+print(a.display())
+print(b.display())
+print(c.display())
